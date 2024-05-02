@@ -49,6 +49,8 @@ extension MainNewsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = FullNewsInfoViewController()
         vc.text = allData[indexPath.row].content
+        vc.newsImage.image = allData[indexPath.row].image!
+        vc.newsDescription = allData[indexPath.row].description
         present(vc, animated: true)
         print("Выбрали новость ")
     }
