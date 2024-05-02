@@ -29,7 +29,26 @@ class NewsTableCustomCell: UITableViewCell {
         return button
     }()
     
-    lazy var mainNewLabel: UILabel = {
+    lazy var newsDescription: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 15, weight: .bold)
+        label.textColor = .white
+        label.numberOfLines = 0
+        label.backgroundColor = .black
+        label.lineBreakMode = .byWordWrapping
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    lazy var newsAuthor: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 13)
+        label.textColor = .green
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    lazy var newsDate: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 13)
         label.textColor = .green
@@ -54,7 +73,9 @@ class NewsTableCustomCell: UITableViewCell {
     private func setupUI() {
         contentView.addSubview(newsImage)
         newsImage.addSubview(favoriteButton)
-        newsImage.addSubview(mainNewLabel)
+        newsImage.addSubview(newsDescription)
+        newsImage.addSubview(newsAuthor)
+        newsImage.addSubview(newsDate)
         
         NSLayoutConstraint.activate([
             newsImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -65,8 +86,15 @@ class NewsTableCustomCell: UITableViewCell {
             favoriteButton.trailingAnchor.constraint(equalTo: newsImage.trailingAnchor),
             favoriteButton.topAnchor.constraint(equalTo: newsImage.topAnchor),
             
-            mainNewLabel.leadingAnchor.constraint(equalTo: newsImage.leadingAnchor, constant: 8),
-            mainNewLabel.bottomAnchor.constraint(equalTo: newsImage.bottomAnchor, constant: -8)
+            newsDescription.topAnchor.constraint(equalTo: newsImage.topAnchor, constant: 10),
+            newsDescription.leadingAnchor.constraint(equalTo: newsImage.leadingAnchor, constant: 8),
+            newsDescription.trailingAnchor.constraint(equalTo: newsImage.trailingAnchor, constant: -8),
+            
+            newsAuthor.trailingAnchor.constraint(equalTo: newsImage.trailingAnchor, constant: -8),
+            newsAuthor.bottomAnchor.constraint(equalTo: newsImage.bottomAnchor, constant: -8),
+            
+            newsDate.leadingAnchor.constraint(equalTo: newsImage.leadingAnchor, constant: 8),
+            newsDate.bottomAnchor.constraint(equalTo: newsImage.bottomAnchor, constant: -8)
         ])
     }
 }

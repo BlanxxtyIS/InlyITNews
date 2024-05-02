@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 struct News: Codable {
     let status: String
     let totalResults: Int
@@ -23,7 +22,18 @@ struct NewsArticle: Codable {
     let description: String?
     let pubDate: String
     let image_url: String?
+    let content: String
 }
+
+struct Marik {
+    let creator: String
+    let pubDate: String
+    let description: String
+    let image: UIImage?
+    let content: String
+}
+
+var marik: [Marik] = []
 
 func loadNews() {
     guard let url = URL(string: "https://newsdata.io/api/1/news?apikey=pub_43324387e4fcaf33b39274142680983e5c772&q=pizza") else {
@@ -55,25 +65,35 @@ func loadNews() {
 
 func parseNewsData(data: Data) {
     let decoder = JSONDecoder()
-    
     do {
         let newsResponse = try decoder.decode(News.self, from: data)
+        let group = DispatchGroup()
+        
         for article in newsResponse.results {
-            //print("Title: \(article.title), Link: \(article.link)")
-            print("Автор: \(article.creator ?? ["ПУСТО"])")
-            print("Дата: \(article.pubDate)")
-            print("Описание: \(article.description ?? "ПУСТТО")")
-            if let imageUrlString = article.image_url, let imageUrl = URL(string: imageUrlString) {
-                loadImage(from: imageUrl) { image in
-                    DispatchQueue.main.async {
-                        // Предполагается, что у вас есть UIImageView с именем imageView
-                        guard let image = image else {
-                            return
-                        }
-                        print(image)
-                    }
-                }
+            var creator = ""
+            if let creators = article.creator, !creators.isEmpty {
+                creator = creators.joined(separator: ", ")
             }
+            
+            let pubDate = article.pubDate
+            let description = article.description ?? "ПУСТО"
+            let content = article.content
+            
+            if let imageUrlString = article.image_url, let imageUrl = URL(string: imageUrlString) {
+                group.enter()
+                loadImage(from: imageUrl) { image in
+                    let newItem = Marik(creator: creator, pubDate: pubDate, description: description, image: image, content: content)
+                    marik.append(newItem)
+                    group.leave()
+                }
+            } else {
+                let newItem = Marik(creator: creator, pubDate: pubDate, description: description, image: nil, content: content)
+                marik.append(newItem)
+            }
+        }
+        
+        group.notify(queue: .main) {
+            print("Все данные загружены и добавлены в массив")
         }
         
     } catch {
@@ -93,7 +113,6 @@ func loadImage(from url: URL, completion: @escaping (UIImage?) -> Void) {
         let image = UIImage(data: data)
         completion(image)
     }
-
     task.resume()
 }
 
