@@ -31,11 +31,12 @@ struct Marik {
     let description: String
     let image: UIImage?
     let content: String
+    let link: String
 }
 
 var marik: [Marik] = []
 
-func loadNews() {
+func loadNewsAll() {
     guard let url = URL(string: "https://newsdata.io/api/1/news?apikey=pub_43324387e4fcaf33b39274142680983e5c772&q=pizza") else {
         print("Неккоректный URL")
         return
@@ -78,16 +79,17 @@ func parseNewsData(data: Data) {
             let pubDate = article.pubDate
             let description = article.description ?? "ПУСТО"
             let content = article.content
+            let link = article.link
             
             if let imageUrlString = article.image_url, let imageUrl = URL(string: imageUrlString) {
                 group.enter()
                 loadImage(from: imageUrl) { image in
-                    let newItem = Marik(creator: creator, pubDate: pubDate, description: description, image: image, content: content)
+                    let newItem = Marik(creator: creator, pubDate: pubDate, description: description, image: image, content: content, link: link)
                     marik.append(newItem)
                     group.leave()
                 }
             } else {
-                let newItem = Marik(creator: creator, pubDate: pubDate, description: description, image: nil, content: content)
+                let newItem = Marik(creator: creator, pubDate: pubDate, description: description, image: nil, content: content, link: link)
                 marik.append(newItem)
             }
         }

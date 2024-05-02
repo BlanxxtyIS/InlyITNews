@@ -7,11 +7,11 @@
 
 import UIKit
 
-class FavoriteNewsViewController: UIViewController {
+final class FavoriteNewsViewController: UIViewController {
     
+    // MARK: - Initializers
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        print("Favorite")
     }
 }

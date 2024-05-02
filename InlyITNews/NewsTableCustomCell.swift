@@ -7,26 +7,17 @@
 
 import UIKit
 
-class NewsTableCustomCell: UITableViewCell {
+final class NewsTableCustomCell: UITableViewCell {
     
+    // MARK: - Public Properties
     static let reuseIdentifier = "NewsCell"
     
     lazy var newsImage: UIImageView = {
-        let image = UIImage(named: "0")
-        let newsImage = UIImageView(image: image)
-        newsImage.contentMode = .scaleToFill
-        newsImage.translatesAutoresizingMaskIntoConstraints = false
-        return newsImage
-    }()
-
-    private lazy var favoriteButton: UIButton = {
-       let button = UIButton()
-        button.setImage(UIImage(systemName: "star"), for: .normal)
-        button.addTarget(self, action: #selector(didTapFavorite), for: .touchUpInside)
-        button.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        button.widthAnchor.constraint(equalToConstant: 44).isActive = true
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleToFill
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.isUserInteractionEnabled = true
+        return imageView
     }()
     
     lazy var newsDescription: UILabel = {
@@ -55,7 +46,20 @@ class NewsTableCustomCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+
+    // MARK: - Private Properties
+    private lazy var favoriteButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "star"), for: .normal)
+        button.addTarget(self, action: #selector(didTapFavorite), for: .touchUpInside)
+        button.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        button.widthAnchor.constraint(equalToConstant: 44).isActive = true
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.isUserInteractionEnabled = true
+        return button
+    }()
     
+    // MARK: - Initializers
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
@@ -65,6 +69,7 @@ class NewsTableCustomCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Private Methods
     @objc
     private func didTapFavorite() {
         print("HHHHH")
@@ -72,10 +77,10 @@ class NewsTableCustomCell: UITableViewCell {
     
     private func setupUI() {
         contentView.addSubview(newsImage)
-        newsImage.addSubview(favoriteButton)
-        newsImage.addSubview(newsDescription)
-        newsImage.addSubview(newsAuthor)
-        newsImage.addSubview(newsDate)
+        contentView.addSubview(favoriteButton)
+        contentView.addSubview(newsDescription)
+        contentView.addSubview(newsAuthor)
+        contentView.addSubview(newsDate)
         
         NSLayoutConstraint.activate([
             newsImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -83,18 +88,20 @@ class NewsTableCustomCell: UITableViewCell {
             newsImage.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
             newsImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            favoriteButton.trailingAnchor.constraint(equalTo: newsImage.trailingAnchor),
-            favoriteButton.topAnchor.constraint(equalTo: newsImage.topAnchor),
+            favoriteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            favoriteButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            favoriteButton.widthAnchor.constraint(equalToConstant: 44),
+            favoriteButton.heightAnchor.constraint(equalToConstant: 44),
             
             newsDescription.topAnchor.constraint(equalTo: newsImage.topAnchor, constant: 10),
-            newsDescription.leadingAnchor.constraint(equalTo: newsImage.leadingAnchor, constant: 8),
-            newsDescription.trailingAnchor.constraint(equalTo: newsImage.trailingAnchor, constant: -8),
+            newsDescription.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            newsDescription.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
             
-            newsAuthor.trailingAnchor.constraint(equalTo: newsImage.trailingAnchor, constant: -8),
-            newsAuthor.bottomAnchor.constraint(equalTo: newsImage.bottomAnchor, constant: -8),
+            newsAuthor.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            newsAuthor.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
             
-            newsDate.leadingAnchor.constraint(equalTo: newsImage.leadingAnchor, constant: 8),
-            newsDate.bottomAnchor.constraint(equalTo: newsImage.bottomAnchor, constant: -8)
+            newsDate.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            newsDate.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
         ])
     }
 }

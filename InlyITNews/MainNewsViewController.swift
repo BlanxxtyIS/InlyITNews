@@ -7,8 +7,9 @@
 
 import UIKit
 
-class MainNewsViewController: UIViewController {
+final class MainNewsViewController: UIViewController {
         
+    // MARK: - Public Properties
     var allData: [Marik] = []
     
     lazy var newsTableView: UITableView = {
@@ -19,12 +20,20 @@ class MainNewsViewController: UIViewController {
         return table
     }()
     
+    // MARK: - Initializers
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadNewsAll()
         loadNews()
+    }
+    
+    
+    // MARK: - Private Methods
+    func loadNews() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
             self.allData = marik
             self.setupUI()
+            self.newsTableView.reloadData()
         }
     }
     
@@ -45,14 +54,18 @@ class MainNewsViewController: UIViewController {
     }
 }
 
+// MARK: - UITableViewDelegate
 extension MainNewsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         let vc = FullNewsInfoViewController()
         vc.text = allData[indexPath.row].content
         vc.newsImage.image = allData[indexPath.row].image!
-        vc.newsDescription = allData[indexPath.row].description
+        vc.newsDescription.text = allData[indexPath.row].description
+        vc.newsAuthor.text = allData[indexPath.row].creator
+        vc.newsDate.text = allData[indexPath.row].pubDate
+        vc.urlNews = allData[indexPath.row].link
         present(vc, animated: true)
-        print("Выбрали новость ")
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -68,6 +81,7 @@ extension MainNewsViewController: UITableViewDelegate {
     }
 }
 
+// MARK: - UITableViewDataSource
 extension MainNewsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         allData.count

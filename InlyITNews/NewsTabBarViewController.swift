@@ -7,27 +7,35 @@
 
 import UIKit
 
-class NewsTabBarController: UITabBarController {
-    
+final class NewsTabBarController: UITabBarController {
+
+    // MARK: - Initializers
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupTabBar()
     }
     
+    // MARK: - Private Methods
     private func setupTabBar() {
         let mainViewController = MainNewsViewController()
-        let mainNavigationViewController = UINavigationController(rootViewController: mainViewController)
-        mainNavigationViewController.tabBarItem = UITabBarItem(title: "Новости",
-                                                               image: UIImage(systemName: "doc.text.below.ecg.rtl"),
-                                                               tag: 0)
+        let mainNavigationViewController = createNavController(for: mainViewController, title: "Новости", imageSystemName: "doc.text.below.ecg.rtl")
         
         let favoriteViewController = FavoriteNewsViewController()
-        let favoriteNavigationViewController = UINavigationController(rootViewController: favoriteViewController)
-        favoriteNavigationViewController.tabBarItem = UITabBarItem(title: "Избранное",
-                                                         image: UIImage(systemName: "star"),
-                                                         tag: 1)
+        let favoriteNavigationViewController = createNavController(for: favoriteViewController,
+                                                                   title: "Избранное",
+                                                                   imageSystemName: "star")
         
         viewControllers = [mainNavigationViewController, favoriteNavigationViewController]
+    }
+    
+    private func createNavController(for rootViewController: UIViewController, 
+                                     title: String,
+                                     imageSystemName: String) -> UINavigationController {
+        let navigationController = UINavigationController(rootViewController: rootViewController)
+        navigationController.tabBarItem = UITabBarItem(title: title,
+                                                        image: UIImage(systemName: imageSystemName),
+                                                        tag: 0)
+        return navigationController
     }
 }
