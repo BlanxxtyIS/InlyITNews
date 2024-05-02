@@ -29,7 +29,7 @@ class NewsTableCustomCell: UITableViewCell {
         return button
     }()
     
-    private lazy var mainNewLabel: UILabel = {
+    lazy var mainNewLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 13)
         label.textColor = .green
@@ -48,21 +48,19 @@ class NewsTableCustomCell: UITableViewCell {
     
     @objc
     private func didTapFavorite() {
-        print("Фаворит-фаворит")
+        print("HHHHH")
     }
     
     private func setupUI() {
         contentView.addSubview(newsImage)
-        contentView.addSubview(favoriteButton)
-        contentView.addSubview(mainNewLabel)
-        
-        let margins = contentView.layoutMarginsGuide
+        newsImage.addSubview(favoriteButton)
+        newsImage.addSubview(mainNewLabel)
         
         NSLayoutConstraint.activate([
             newsImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             newsImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            newsImage.topAnchor.constraint(equalTo: margins.topAnchor),
-            newsImage.bottomAnchor.constraint(equalTo: margins.bottomAnchor),
+            newsImage.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
+            newsImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
             favoriteButton.trailingAnchor.constraint(equalTo: newsImage.trailingAnchor),
             favoriteButton.topAnchor.constraint(equalTo: newsImage.topAnchor),

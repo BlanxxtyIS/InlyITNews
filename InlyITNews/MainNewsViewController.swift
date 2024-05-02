@@ -9,17 +9,18 @@ import UIKit
 
 class MainNewsViewController: UIViewController {
     
-    let testNews: [String] = Array(0...24).map {"\($0)"}
     
     private lazy var newsTableView: UITableView = {
         let table = UITableView()
         table.register(NewsTableCustomCell.self, forCellReuseIdentifier: NewsTableCustomCell.reuseIdentifier)
+        table.separatorStyle = .none
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadNews()
         setupUI()
     }
     
@@ -34,28 +35,38 @@ class MainNewsViewController: UIViewController {
             newsTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             newsTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             newsTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            newsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)])
-        
+            newsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+
     }
 }
 
 extension MainNewsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Выбрали новость \(testNews[indexPath.row])")
+        print("Выбрали новость ")
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        guard let image = UIImage(named: "0") else {
+            return 0
+        }
+        let imageInsets = UIEdgeInsets(top: 0, left: 16, bottom: 4, right: 16)
+        let imageViewWidth = tableView.bounds.width - imageInsets.left - imageInsets.right
+        let imageWidth = image.size.width
+        let scale = imageViewWidth / imageWidth
+        let cellHeight = image.size.height * scale + imageInsets.top + imageInsets.bottom
+        return cellHeight
     }
 }
 
 extension MainNewsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        testNews.count
+        0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: NewsTableCustomCell.reuseIdentifier, for: indexPath) as? NewsTableCustomCell else { return UITableViewCell() }
-        if let image = UIImage(named: testNews[indexPath.row]) {
-            cell.newsImage.image = UIImage(named: testNews[indexPath.row])
-        }
-        cell.textLabel?.text = testNews[indexPath.row]
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: NewsTableCustomCell.reuseIdentifier,
+                                                       for: indexPath) as? NewsTableCustomCell else { return UITableViewCell() }
         return cell
     }
 }

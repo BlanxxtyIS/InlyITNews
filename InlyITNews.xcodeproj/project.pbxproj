@@ -15,6 +15,7 @@
 		F41FC26A2BE3A99400908E4D /* MainNewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41FC2692BE3A99400908E4D /* MainNewsViewController.swift */; };
 		F41FC26C2BE3A9E800908E4D /* FavoriteNewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41FC26B2BE3A9E800908E4D /* FavoriteNewsViewController.swift */; };
 		F41FC26E2BE3B10C00908E4D /* NewsTableCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41FC26D2BE3B10C00908E4D /* NewsTableCustomCell.swift */; };
+		F41FC2702BE3DDA500908E4D /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41FC26F2BE3DDA500908E4D /* NetworkClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		F41FC2692BE3A99400908E4D /* MainNewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNewsViewController.swift; sourceTree = "<group>"; };
 		F41FC26B2BE3A9E800908E4D /* FavoriteNewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteNewsViewController.swift; sourceTree = "<group>"; };
 		F41FC26D2BE3B10C00908E4D /* NewsTableCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableCustomCell.swift; sourceTree = "<group>"; };
+		F41FC26F2BE3DDA500908E4D /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,7 @@
 				F41FC25C2BE3A37B00908E4D /* Assets.xcassets */,
 				F41FC25E2BE3A37B00908E4D /* LaunchScreen.storyboard */,
 				F41FC2612BE3A37B00908E4D /* Info.plist */,
+				F41FC26F2BE3DDA500908E4D /* NetworkClient.swift */,
 			);
 			path = InlyITNews;
 			sourceTree = "<group>";
@@ -147,6 +150,7 @@
 				F41FC2542BE3A37900908E4D /* AppDelegate.swift in Sources */,
 				F41FC26E2BE3B10C00908E4D /* NewsTableCustomCell.swift in Sources */,
 				F41FC2562BE3A37900908E4D /* SceneDelegate.swift in Sources */,
+				F41FC2702BE3DDA500908E4D /* NetworkClient.swift in Sources */,
 				F41FC26C2BE3A9E800908E4D /* FavoriteNewsViewController.swift in Sources */,
 				F41FC2682BE3A92900908E4D /* NewsTabBarViewController.swift in Sources */,
 			);
