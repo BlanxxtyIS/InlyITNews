@@ -12,7 +12,9 @@ final class NewsTabBarController: UITabBarController {
     // MARK: - Initializers
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        tabBar.barTintColor = .black
+        tabBar.tintColor = .white
+        tabBar.unselectedItemTintColor = .gray
         setupTabBar()
     }
     

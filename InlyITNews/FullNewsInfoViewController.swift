@@ -27,6 +27,7 @@ final class FullNewsInfoViewController: UIViewController {
         let label = UILabel()
         label.font = .systemFont(ofSize: 15, weight: .medium)
         label.textColor = .white
+        label.backgroundColor = .black
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -35,7 +36,7 @@ final class FullNewsInfoViewController: UIViewController {
     lazy var newsAuthor: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 13)
-        label.textColor = .green
+        label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -43,7 +44,7 @@ final class FullNewsInfoViewController: UIViewController {
     lazy var newsDate: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 13)
-        label.textColor = .green
+        label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -66,6 +67,7 @@ final class FullNewsInfoViewController: UIViewController {
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
+        scrollView.backgroundColor = .black
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
@@ -73,7 +75,7 @@ final class FullNewsInfoViewController: UIViewController {
     private var fullContentLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 15, weight: .bold)
-        label.textColor = .black
+        label.textColor = .white
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -82,7 +84,7 @@ final class FullNewsInfoViewController: UIViewController {
     // MARK: - Initializers
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
+        view.backgroundColor = .black
         setupUI()
     }
     
@@ -109,7 +111,7 @@ final class FullNewsInfoViewController: UIViewController {
         scrollView.addSubview(newsAuthor)
         scrollView.addSubview(newsDate)
         scrollView.addSubview(infoWebButton)
-        fullContentLabel.text = text
+        fullContentLabel.text = "\(text) тут должен быть полный текст, но изза бесплатного плана, а API он недоступен, еще реализован UIScrollView, если текст большой, чтобы была возможность скролла. Да дизайн хромает("
         setupConstraints()
     }
     
@@ -125,13 +127,13 @@ final class FullNewsInfoViewController: UIViewController {
             newsImage.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
             newsImage.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
             
-            newsAuthor.topAnchor.constraint(equalTo: newsImage.bottomAnchor),
+            newsAuthor.topAnchor.constraint(equalTo: newsImage.bottomAnchor, constant: 10),
             newsAuthor.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20),
             
             infoWebButton.topAnchor.constraint(equalTo: newsAuthor.bottomAnchor),
             infoWebButton.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20),
             
-            newsDate.topAnchor.constraint(equalTo: newsImage.bottomAnchor),
+            newsDate.topAnchor.constraint(equalTo: newsImage.bottomAnchor, constant: 10),
             newsDate.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -20),
             
             newsDescription.leadingAnchor.constraint(equalTo: newsImage.leadingAnchor, constant: 20),

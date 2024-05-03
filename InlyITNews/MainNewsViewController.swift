@@ -10,11 +10,14 @@ import UIKit
 final class MainNewsViewController: UIViewController {
         
     // MARK: - Public Properties
-    var allData: [Marik] = []
+    var allData: [Article] = []
+    
+    let networkClient = NetworkClient()
     
     lazy var newsTableView: UITableView = {
         let table = UITableView()
         table.register(NewsTableCustomCell.self, forCellReuseIdentifier: NewsTableCustomCell.reuseIdentifier)
+        table.backgroundColor = .black
         table.separatorStyle = .none
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
@@ -23,7 +26,7 @@ final class MainNewsViewController: UIViewController {
     // MARK: - Initializers
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadNewsAll()
+        networkClient.loadNewsAll()
         loadNews()
     }
     
@@ -31,14 +34,14 @@ final class MainNewsViewController: UIViewController {
     // MARK: - Private Methods
     func loadNews() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            self.allData = marik
+            self.allData = self.networkClient.neededArticleData
             self.setupUI()
             self.newsTableView.reloadData()
         }
     }
     
     private func setupUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = .black
         view.addSubview(newsTableView)
         
         newsTableView.delegate = self
@@ -90,7 +93,7 @@ extension MainNewsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: NewsTableCustomCell.reuseIdentifier,
                                                        for: indexPath) as? NewsTableCustomCell else { return UITableViewCell() }
-
+        cell.valueForFavorite = allData[indexPath.row].description
         cell.newsAuthor.text = allData[indexPath.row].creator
         cell.newsImage.image = allData[indexPath.row].image
         cell.newsDate.text = allData[indexPath.row].pubDate

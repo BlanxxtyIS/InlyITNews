@@ -11,10 +11,13 @@ final class NewsTableCustomCell: UITableViewCell {
     
     // MARK: - Public Properties
     static let reuseIdentifier = "NewsCell"
+    var valueForFavorite: String = ""
     
     lazy var newsImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleToFill
+        imageView.layer.masksToBounds = true
+        imageView.layer.cornerRadius = 6
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.isUserInteractionEnabled = true
         return imageView
@@ -24,7 +27,9 @@ final class NewsTableCustomCell: UITableViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 15, weight: .bold)
         label.textColor = .white
-        label.numberOfLines = 0
+        label.layer.masksToBounds = true
+        label.layer.cornerRadius = 6
+        label.numberOfLines = 7
         label.backgroundColor = .black
         label.lineBreakMode = .byWordWrapping
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -33,16 +38,22 @@ final class NewsTableCustomCell: UITableViewCell {
     
     lazy var newsAuthor: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 13)
-        label.textColor = .green
+        label.font = .systemFont(ofSize: 13, weight: .bold)
+        label.layer.masksToBounds = true
+        label.layer.cornerRadius = 6
+        label.textColor = .white
+        label.backgroundColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     lazy var newsDate: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 13)
-        label.textColor = .green
+        label.font = .systemFont(ofSize: 13, weight: .bold)
+        label.layer.masksToBounds = true
+        label.layer.cornerRadius = 6
+        label.textColor = .white
+        label.backgroundColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -52,6 +63,7 @@ final class NewsTableCustomCell: UITableViewCell {
         let button = UIButton()
         button.setImage(UIImage(systemName: "star"), for: .normal)
         button.addTarget(self, action: #selector(didTapFavorite), for: .touchUpInside)
+        button.tintColor = .white
         button.heightAnchor.constraint(equalToConstant: 44).isActive = true
         button.widthAnchor.constraint(equalToConstant: 44).isActive = true
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -72,10 +84,15 @@ final class NewsTableCustomCell: UITableViewCell {
     // MARK: - Private Methods
     @objc
     private func didTapFavorite() {
-        print("HHHHH")
+        let isFavorite = favoriteButton.currentImage == UIImage(systemName: "star")
+        let newImage = isFavorite ? UIImage(systemName: "star.fill") : UIImage(systemName: "star")
+        favoriteButton.setImage(newImage, for: .normal)
+        UserDefaults.standard.set(valueForFavorite, forKey: "ключ")
     }
     
     private func setupUI() {
+        contentView.backgroundColor = .black
+        
         contentView.addSubview(newsImage)
         contentView.addSubview(favoriteButton)
         contentView.addSubview(newsDescription)
@@ -95,7 +112,7 @@ final class NewsTableCustomCell: UITableViewCell {
             
             newsDescription.topAnchor.constraint(equalTo: newsImage.topAnchor, constant: 10),
             newsDescription.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            newsDescription.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            newsDescription.trailingAnchor.constraint(equalTo: favoriteButton.leadingAnchor, constant: 8),
             
             newsAuthor.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
             newsAuthor.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
